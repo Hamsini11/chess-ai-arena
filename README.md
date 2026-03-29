@@ -1,49 +1,74 @@
-This Python project simulates a chess game with AI opponents. It utilizes the Minimax algorithm and Monte Carlo Tree Search and their variations for intelligent decision-making.
+A from-scratch Python chess engine where classical and probabilistic AI algorithms compete head-to-head — with every matchup benchmarked and logged.
 
-##### Key Components:
+Built originally as a college project, extended into a passion project driven by one question: *which search strategy actually wins, and why?*
+
+## 🧠 Algorithms Implemented
+
+### Minimax Family
+- **Standard Minimax** with alpha-beta pruning
+- **Beam Search** — pruned branching for speed
+- **Iterative Deepening** — depth-first with time awareness
+
+### MCTS Family
+- **Standard MCTS** — simulation-based decision making
+- **Progressive History MCTS** — move history-weighted selection
+- **RAVE MCTS** — rapid action value estimation
+
+### Baseline
+- **RandomAgent** — uniform random legal move selection
+
+### Key Components:
 ---------------------
-###### ♔ ChessPiece:
-♕ Represents a chess piece with its color and type. <br/>
-♕ Provides methods for determining legal moves based on the piece type.
+#### ♔ ChessPiece:
+♕ Piece identity + legal move generation per type.
 
-###### ♔ ChessBoard:
-♕ Represents the chessboard and its current state.<br/>
-♕ Implements the chessboard and manages all core gameplay mechanics, including move validation, tracking attacked squares, and checking game-ending conditions like checkmate.
+#### ♔ ChessBoard:
+♕ Board state, move validation, attack tracking, checkmate detection.
 
-###### ♔ MinimaxAgent:
-♕ An AI player implementation that uses the minimax algorithm with alpha-beta pruning, incorporating different search strategies (standard minimax, beam search, and iterative deepening) to make intelligent chess moves.
+#### ♔ MinimaxAgent:
+♕ Minimax variants (standard, beam search, iterative deepening)
 
-###### ♔ MCTS:
-♕ A sophisticated AI player that implements Monte Carlo Tree Search with multiple variants (standard, progressive history, and RAVE), using simulation-based decision making to select chess moves.
+#### ♔ MCTS:
+♕ MCTS variants (standard, progressive history, RAVE).
 
-###### ♔ RandomAgent:
-♕ Selects moves randomly from the list of legal moves.
+#### ♔ RandomAgent:
+♕ Random legal move selection (baseline).
 
-###### ♔ ChessGame:
-♕ Represents the overarching game and coordinates interactions between the player and the chessboard.<br/>
-♕ Visualizes the board and prints move information.
+#### ♔ ChessGame:
+♕ Orchestrates agents + board, visualizes play, logs results
 
-Each class is designed to work together in a modular fashion, with ChessGame using ChessBoard which in turn uses ChessPieces, while both MinimaxAgent and MCTSAgent can be used as players within the ChessGame framework.
+All classes are modular — any two agents can be dropped in as players.
 
-##### To Run:
--------------
-Clone the Repository:
-```git clone https://github.com/your_username/Hamsini11.git```
+## 📊 Benchmark Results
 
-Execute the main.py script:
-```python main.py```
+All 15 head-to-head matchups run to completion.
 
-This will start a chess game between the variations of Minimax AI and the MCTS AI. The game will be visualized on the console, and the moves will be printed, followed by summary stats.
+Key findings:
+=============
+|        White        |         Black       |       Result         |Moves|
+|---------------------|---------------------|----------------------|-----|
+| Standard Minimax    | Beam Search         | **Checkmate**        | 39  |
+| Standard Minimax    | Iterative Deepening | Draw                 | 50  |
+| Standard Minimax    | Standard MCTS       | Draw                 | 50  |
+| Standard Minimax    | Progressive MCTS    | **Checkmate**        | 7   |
+| Standard Minimax    | RAVE MCTS           | **Checkmate**        | 39  |
+| Beam Search         | Iterative Deepening | Draw                 | 50  |
+| Beam Search         | Standard MCTS       | Draw                 | 50  |
+| Beam Search         | Progressive MCTS    | Draw                 | 50  |
+| Beam Search         | RAVE MCTS           | Draw                 | 50  |
+| Iterative Deepening | Standard MCTS       | **Checkmate**        | 23  |
+| Iterative Deepening | Progressive MCTS    | **Checkmate**        | 31  |
+| Iterative Deepening | RAVE MCTS           | **Checkmate**        | 35  |
+| Standard MCTS       | Progressive MCTS    | Draw                 | 50  |
+| Standard MCTS       | RAVE MCTS           | Draw                 | 50  |
+| Progressive MCTS    | RAVE MCTS           | Draw                 | 50  |
 
-_The max_moves parameter in the_ ```ChessGame``` _class can be adjusted to limit the number of moves per game._
-
-Quick Tech Help!
-----------------
-##### To view all the results in console:
--------------
-1. Go to File > Preferences > Settings
-2. Search for 'scrollback'
-3. It should be 1000 or higher
+**Notable observations:**
+- Iterative Deepening is the strongest overall performer — beats all MCTS variants
+- Beam Search is the fastest (avg 0.17–0.27s/move) but draws frequently
+- Progressive MCTS beat Standard Minimax in just 7 moves — fastest checkmate recorded
+- MCTS variants largely draw among themselves, suggesting similar search quality
+Average move times - White: 1.04s, Black: 1.04s
 
 All CHECKMATES in the game!!
 ----------------------------
@@ -54,101 +79,39 @@ All CHECKMATES in the game!!
 ![image](https://github.com/user-attachments/assets/acbee8e8-5546-4dfd-b321-9c89b43eb5f1)
 ![image](https://github.com/user-attachments/assets/f1ffa3bf-ddd0-4569-b5f6-4995161eb61a)
 
-Final Summary Stats:
---------------------
-Head-to-Head Results:
-==================================================
+## 🚀 Getting Started
 
-Standard Minimax (White) vs Beam Search (Black)<br/>
-Result@analyzeResults: checkmate<br/>
-Moves: 39<br/>
-Average move times - White: 42.45s, Black: 0.15s
+**Requirements:** Python 3.x — no external dependencies
+```bash
+git clone https://github.com/Hamsini11/chess-ai-arena.git
+cd chess-ai-arena
+python main.py
+```
 
-Standard Minimax (White) vs Iterative Deepening (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 23.76s, Black: 20.75s
+This runs all agent matchups sequentially, visualizes each game on the console, 
+and prints summary stats at the end.
 
-Standard Minimax (White) vs Standard MCTS (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 19.47s, Black: 1.12s
+**To adjust game length:**
+```python
+# In ChessGame class
+game = ChessGame(max_moves=50)  # increase or decrease as needed
+```
 
-Standard Minimax (White) vs Progressive MCTS (Black)<br/>
-Result@analyzeResults: checkmate<br/>
-Moves: 7<br/>
-Average move times - White: 7.17s, Black: 1.01s
+**Console tip:** To see full output without truncation:
+`File → Preferences → Settings → search "scrollback" → set to 1000 or higher`
 
-Standard Minimax (White) vs RAVE MCTS (Black)<br/>
-Result@analyzeResults: checkmate<br/>
-Moves: 39<br/>
-Average move times - White: 41.12s, Black: 1.22s
 
-Beam Search (White) vs Iterative Deepening (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 0.17s, Black: 36.51s
+## 🔮 Future Directions
 
-Beam Search (White) vs Standard MCTS (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 0.26s, Black: 1.20s
+- Neural network evaluation function (replacing hand-crafted heuristics)
+- Opening book integration
+- GUI with move-by-move replay
+- Elo rating system across extended tournament runs
 
-Beam Search (White) vs Progressive MCTS (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 0.27s, Black: 1.18s
 
-Beam Search (White) vs RAVE MCTS (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 0.26s, Black: 1.26s
+## 📄 License
 
-Iterative Deepening (White) vs Standard MCTS (Black)<br/>
-Result@analyzeResults: checkmate<br/>
-Moves: 23<br/>
-Average move times - White: 44.42s, Black: 1.17s
+GPL-3.0 — use it, extend it, keep it open.
 
-Iterative Deepening (White) vs Progressive MCTS (Black)<br/>
-Result@analyzeResults: checkmate<br/>
-Moves: 31<br/>
-Average move times - White: 32.02s, Black: 1.07s
 
-Iterative Deepening (White) vs RAVE MCTS (Black)<br/>
-Result@analyzeResults: checkmate<br/>
-Moves: 35<br/>
-Average move times - White: 45.46s, Black: 1.02s<br/>
-Result@analyzeResults: checkmate<br/>
-Moves: 35<br/>
-Average move times - White: 45.46s, Black: 1.02s<br/>
-Average move times - White: 45.46s, Black: 1.02s<br/>
-
-Standard MCTS (White) vs Progressive MCTS (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 1.06s, Black: 1.05s<br/>
-Standard MCTS (White) vs Progressive MCTS (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50
-Average move times - White: 1.06s, Black: 1.05s<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 1.06s, Black: 1.05s<br/>
-Moves: 50<br/>
-Average move times - White: 1.06s, Black: 1.05s<br/>
-Average move times - White: 1.06s, Black: 1.05s<br/>
-
-Standard MCTS (White) vs RAVE MCTS (Black)
-
-Standard MCTS (White) vs RAVE MCTS (Black)<br/>
-Standard MCTS (White) vs RAVE MCTS (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Moves: 50<br/>
-Average move times - White: 1.07s, Black: 1.06s
-
-Progressive MCTS (White) vs RAVE MCTS (Black)<br/>
-Result@analyzeResults: draw_by_moves<br/>
-Moves: 50<br/>
-Average move times - White: 1.04s, Black: 1.04s
+*Built by [Hamsini A Kumar](https://www.linkedin.com/in/hamsini-a-kumar)*
