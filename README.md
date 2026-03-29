@@ -1,3 +1,5 @@
+# ♟️ chess-ai-arena
+
 A from-scratch Python chess engine where classical and probabilistic AI algorithms compete head-to-head — with every matchup benchmarked and logged.
 
 Built originally as a college project, extended into a passion project driven by one question: *which search strategy actually wins, and why?*
@@ -111,7 +113,7 @@ game = ChessGame(max_moves=50)  # increase or decrease as needed
 
 ## 📄 License
 
-GPL-3.0 — use it, extend it, keep it open.
+GNU-3.0 — use it, extend it, keep it open.
 
 
 *Built by [Hamsini A Kumar](https://www.linkedin.com/in/hamsini-a-kumar)*
